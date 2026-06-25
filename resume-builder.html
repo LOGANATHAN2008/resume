@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Primary Meta Tags -->
+    <title>Professional Resume Builder - macOS Style | Loganathan M</title>
+    <meta name="title" content="Professional Resume Builder - macOS Style | Loganathan M">
+    <meta name="description" content="Create a stunning, professional resume instantly with our premium macOS-style Resume Builder. Easily input your details and download a high-quality PDF to land your dream job.">
+    <meta name="keywords" content="resume builder, cv maker, professional resume, pdf resume, loganathan m, career tools, macos style resume, portfolio">
+    <meta name="author" content="Loganathan M">
+    <meta name="robots" content="index, follow">
+
+    <!-- Web App / PWA Capabilities -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Resume">
+    <meta name="theme-color" content="#000000">
+    <link rel="apple-touch-icon" href="logo.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://resume.loganathanm.in/">
+    <link rel="icon" href="logo.png" type="image/png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://resume.loganathanm.in/">
+    <meta property="og:title" content="Professional Resume Builder - macOS Style">
+    <meta property="og:description" content="Create a stunning, professional resume instantly with our premium macOS-style Resume Builder. Download as a high-quality PDF to land your dream job.">
+    <meta property="og:image" content="https://resume.loganathanm.in/logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://resume.loganathanm.in/">
+    <meta property="twitter:title" content="Professional Resume Builder - macOS Style">
+    <meta property="twitter:description" content="Create a stunning, professional resume instantly with our premium macOS-style Resume Builder. Download as a high-quality PDF to land your dream job.">
+    <meta property="twitter:image" content="https://resume.loganathanm.in/logo.png">
+
+    <!-- Google Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Resume Builder by Loganathan M",
+      "url": "https://resume.loganathanm.in/",
+      "description": "Create a stunning, professional resume instantly with our premium macOS-style Resume Builder.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "All",
+      "author": {
+        "@type": "Person",
+        "name": "Loganathan M"
+      }
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="mac-topbar">
+        <div class="topbar-logo">
+            <img src="logo.png" alt="Logo">
+        </div>
+        <div class="topbar-title">Resume Builder</div>
+        <div class="topbar-actions">
+            <button class="icon-btn" id="undo-btn" title="Undo (Ctrl+Z)"><i class="fa-solid fa-rotate-left"></i></button>
+            <button class="icon-btn" id="redo-btn" title="Redo (Ctrl+Y)"><i class="fa-solid fa-rotate-right"></i></button>
+            <button class="icon-btn" id="theme-toggle" title="Toggle Dark Mode"><i class="fa-solid fa-moon"></i></button>
+        </div>
+    </div>
+
+    <div class="app-container">
+
+        <!-- Sidebar / Form -->
+        <div class="sidebar glass-panel">
+
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fa-solid fa-user-circle"></i> Personal Info
+                </div>
+
+                <div class="form-group row">
+                    <div>
+                        <label class="form-label">Full Name</label>
+                        <input type="text" id="inp-name" class="form-control" placeholder="LOGANATHAN M"
+                            value="LOGANATHAN M">
+                    </div>
+                    <div>
+                        <label class="form-label">Phone</label>
+                        <input type="tel" id="inp-phone" class="form-control" placeholder="+91 7010123479"
+                            value="+91 7010123479">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="inp-email" class="form-control" placeholder="support.loga@gmail.com"
+                        value="support.loga@gmail.com">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Location</label>
+                    <input type="text" id="inp-location" class="form-control" placeholder="Bengaluru, India"
+                        value="Bengaluru, India">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">LinkedIn</label>
+                    <input type="text" id="inp-linkedin" class="form-control" placeholder="linkedin.com/in/johndoe"
+                        value="linkedin.com/in/loganathan-m-2008l">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">GitHub</label>
+                    <input type="text" id="inp-github" class="form-control" placeholder="github.com/johndoe"
+                        value="github.com/loganathan2008">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Website</label>
+                    <input type="text" id="inp-website" class="form-control" placeholder="loganathanm.in"
+                        value="loganathanm.in">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">QR Code URL (Optional)</label>
+                    <input type="url" id="inp-qrcode" class="form-control" placeholder="https://loganathanm.in"
+                        value="https://loganathanm.in">
+                    <small style="color: var(--text-secondary); font-size: 11px;">Leave empty to hide the QR
+                        code</small>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fa-solid fa-align-left"></i> Summary
+                </div>
+                <div class="form-group">
+                    <textarea id="inp-summary" class="form-control"
+                        placeholder="Professional summary...">Enthusiastic fresher pursuing BCA with a strong foundation in web development and UI/UX design. Skilled in HTML, CSS, JavaScript, Python, and Firebase, with hands-on experience building and deploying live web applications. Passionate about clean code and creating user-friendly digital experiences.</textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fa-solid fa-briefcase"></i> Experience
+                </div>
+                <div id="experience-list"></div>
+                <button class="btn-add" id="add-exp-btn">+ Add Experience</button>
+            </div>
+
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fa-solid fa-graduation-cap"></i> Education
+                </div>
+                <div id="education-list"></div>
+                <button class="btn-add" id="add-edu-btn">+ Add Education</button>
+            </div>
+
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fa-solid fa-code"></i> Projects
+                </div>
+                <div id="project-list"></div>
+                <button class="btn-add" id="add-proj-btn">+ Add Project</button>
+            </div>
+
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fa-solid fa-bolt"></i> Technical Skills
+                </div>
+                <div class="form-group">
+                    <textarea id="inp-skills" class="form-control"
+                        placeholder="Design: UI/UX...&#10;Languages: HTML, CSS...">Design: UI/UX Design, Figma, Web Design
+Languages: HTML, CSS, JavaScript, Python, PHP
+Frameworks & Tools: Git, GitHub, Vercel, VS Code, GCP
+Cloud & DB: Firebase, Cloudinary
+Soft Skills: Problem Solving, Creativity, Adaptability, Continuous Learning</textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fa-solid fa-certificate"></i> Certifications
+                </div>
+                <div class="form-group">
+                    <textarea id="inp-certifications" class="form-control" placeholder="Certifications...">Infosys – Full Stack Development Certification
+Cybersecurity Fundamentals Certification</textarea>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Main Preview Area -->
+        <div class="preview-area">
+            <div class="preview-header glass-panel">
+                <div class="preview-title">Live Preview</div>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <button class="btn-secondary" id="manual-edit-btn">
+                        <i class="fa-solid fa-pen"></i> Manual Edit: OFF
+                    </button>
+                    <button class="btn-primary" id="download-pdf-btn">
+                        <i class="fa-solid fa-arrow-down"></i> Export PDF
+                    </button>
+                </div>
+            </div>
+
+            <div class="resume-wrapper">
+                <div class="resume-paper" id="resume-preview">
+
+                    <div class="rp-header-container">
+                        <div class="rp-header-text">
+                            <div class="rp-name" id="prev-name">LOGANATHAN M</div>
+                            <div class="rp-contact" id="prev-contact"></div>
+                        </div>
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://loganathanm.in"
+                            alt="QR Code" class="rp-qr-code" id="prev-qrcode">
+                    </div>
+                    <div class="rp-header-lines"></div>
+
+                    <div class="rp-section-title">Professional Summary</div>
+                    <div class="rp-summary" id="prev-summary"></div>
+
+                    <div class="rp-section-title">Education</div>
+                    <div id="prev-education"></div>
+
+                    <div class="rp-section-title">Experience</div>
+                    <div id="prev-experience"></div>
+
+                    <div class="rp-section-title">Projects</div>
+                    <div id="prev-projects"></div>
+
+                    <div class="rp-section-title">Technical Skills</div>
+                    <div class="rp-skills-grid" id="prev-skills"></div>
+
+                    <div style="display: none;">
+                        <div class="rp-section-title">Certifications</div>
+                        <div class="rp-item-desc" id="prev-certifications"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Export Modal -->
+    <div id="export-modal" class="modal-overlay">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h3>Export Options</h3>
+                <button class="icon-btn" id="close-modal-btn"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="export-option selected" id="opt-free" data-plan="free">
+                    <div class="opt-icon"><i class="fa-solid fa-water"></i></div>
+                    <div class="opt-details">
+                        <h4>Free Version</h4>
+                        <p>Includes a "resume.loganathanm.in" watermark on the bottom right.</p>
+                    </div>
+                </div>
+                <div class="export-option" id="opt-premium" data-plan="premium">
+                    <div class="opt-icon" style="color: #ff9f0a;"><i class="fa-solid fa-crown"></i></div>
+                    <div class="opt-details">
+                        <h4>Premium <span class="badge">Free Trial</span></h4>
+                        <p>Clean export without any watermarks. Professional look.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="confirm-export-btn" style="width: 100%; justify-content: center;">Continue to Download</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="app-footer glass-panel">
+        <p>Designed & Developed by <a href="https://loganathanm.in" target="_blank"
+                class="footer-link">loganathanm.in</a></p>
+    </footer>
+
+    <!-- html2pdf library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
