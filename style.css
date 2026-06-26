@@ -132,6 +132,92 @@ body {
     transform: scale(1.1);
 }
 
+/* Dropdown Menu */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 10px);
+    min-width: 200px;
+    z-index: 200;
+    padding: 8px 0;
+    animation: fadeIn 0.2s ease;
+}
+
+.dropdown-content.show {
+    display: block;
+}
+
+.dropdown-content a {
+    color: var(--text-primary);
+    padding: 10px 16px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.dropdown-content a i {
+    width: 16px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.dropdown-content a:hover {
+    background: rgba(0, 113, 227, 0.1);
+}
+
+.dropdown-content a:hover i {
+    color: var(--accent-blue);
+}
+
+.dropdown-content hr {
+    border: none;
+    border-top: 1px solid var(--glass-border);
+    margin: 8px 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Menu Overlay for Blur */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 150; /* Above everything except topbar and dropdown */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.menu-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+[data-theme="dark"] .menu-overlay {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* Ensure topbar actions and dropdown stay above the blur */
+.mac-topbar {
+    position: sticky;
+    top: 16px;
+    /* ... existing styles ... */
+    z-index: 160; /* Higher than menu-overlay */
+}
+
 /* Layout */
 .app-container {
     display: grid;
@@ -512,6 +598,12 @@ textarea.form-control {
 .rp-skills-category {
     font-weight: 700;
     color: #000;
+    color: #000;
+}
+
+/* Hide Mobile Bottom Nav on Desktop by default */
+.mobile-bottom-nav {
+    display: none;
 }
 
 @media (max-width: 1024px) {
@@ -522,14 +614,122 @@ textarea.form-control {
         height: auto;
     }
     .resume-wrapper {
-        padding: 0;
+        padding: 16px 0;
+        overflow-x: hidden;
+        align-items: flex-start;
+        justify-content: center;
     }
     .resume-paper {
-        width: 100%;
-        min-height: auto;
-        aspect-ratio: 1 / 1.414;
-        border-radius: 0;
+        width: 21cm !important;
+        min-height: 29.7cm !important;
+        transform: scale(calc((100vw - 32px) / 794));
+        transform-origin: top center;
+        margin-bottom: calc(-29.7cm + (29.7cm * ((100vw - 32px) / 794)));
+        border-radius: 4px;
     }
+
+    /* Mobile Bottom Navigation Styles */
+    .mobile-bottom-nav {
+        display: flex !important;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-top: 1px solid var(--glass-border);
+        box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
+        z-index: 1000;
+        padding-bottom: env(safe-area-inset-bottom, 0px); /* For iPhone notch */
+    }
+
+    .mobile-bottom-nav .nav-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 0;
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        font-size: 12px;
+        font-weight: 500;
+        gap: 6px;
+        transition: 0.3s;
+    }
+
+    .mobile-bottom-nav .nav-item i {
+        font-size: 20px;
+    }
+
+    .mobile-bottom-nav .nav-item.active {
+        color: var(--accent-blue);
+    }
+    
+    [data-theme="dark"] .mobile-bottom-nav {
+        background: rgba(30, 30, 30, 0.85);
+    }
+
+    /* Mobile View Toggling Logic */
+    /* By default on mobile, show sidebar (Edit), hide preview */
+    .resume-wrapper {
+        display: none !important;
+    }
+    .sidebar {
+        display: block !important;
+        margin-bottom: 70px; /* Space for bottom nav */
+    }
+
+    /* When preview view is active */
+    body.show-preview .sidebar {
+        display: none !important;
+    }
+    body.show-preview .resume-wrapper {
+        display: flex !important;
+        margin-bottom: 70px; /* Space for bottom nav */
+    }
+    
+    /* Ensure footer stays out of the way */
+    .app-footer {
+        padding-bottom: 80px;
+    }
+}
+
+/* PDF Export Override Mode */
+body.pdf-export-mode {
+    width: 1024px !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+body.pdf-export-mode .app-container {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+body.pdf-export-mode .sidebar, 
+body.pdf-export-mode .mac-topbar,
+body.pdf-export-mode .preview-header,
+body.pdf-export-mode .app-footer,
+body.pdf-export-mode .menu-overlay {
+    display: none !important;
+}
+body.pdf-export-mode .resume-wrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    display: block !important;
+}
+body.pdf-export-mode .resume-paper {
+    transform: none !important;
+    margin: 0 !important;
+    width: 21cm !important;
+    min-height: 29.7cm !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    /* Removed position: absolute to fix blank sheet issue on mobile html2canvas */
 }
 
 /* Footer Styling */
