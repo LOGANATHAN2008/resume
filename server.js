@@ -178,6 +178,8 @@ app.get('/api/admin/downloads', (req, res) => {
 app.get('/api/admin/download-pdf/:filename', (req, res) => {
     const filepath = path.join(RESUMES_DIR, req.params.filename);
     if (fs.existsSync(filepath)) {
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'inline; filename="' + req.params.filename + '"');
         res.sendFile(filepath);
     } else {
         res.status(404).send('File not found');
