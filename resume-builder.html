@@ -63,6 +63,9 @@
 
 <body>
 
+    <!-- Menu Overlay for background blur -->
+    <div id="menu-overlay" class="menu-overlay"></div>
+
     <div class="mac-topbar">
         <div class="topbar-logo">
             <img src="logo.png" alt="Logo">
@@ -72,6 +75,17 @@
             <button class="icon-btn" id="undo-btn" title="Undo (Ctrl+Z)"><i class="fa-solid fa-rotate-left"></i></button>
             <button class="icon-btn" id="redo-btn" title="Redo (Ctrl+Y)"><i class="fa-solid fa-rotate-right"></i></button>
             <button class="icon-btn" id="theme-toggle" title="Toggle Dark Mode"><i class="fa-solid fa-moon"></i></button>
+            
+            <!-- More Menu -->
+            <div class="dropdown" style="position: relative; display: inline-block;">
+                <button class="icon-btn" id="more-menu-btn" title="More Options"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                <div class="dropdown-content glass-panel" id="more-menu-content">
+                    <a href="#" id="menu-clear"><i class="fa-solid fa-trash-can"></i> Clear All Data</a>
+                    <a href="#" id="menu-sample"><i class="fa-solid fa-file-import"></i> Load Sample</a>
+                    <hr>
+                    <a href="admin.html" id="menu-admin"><i class="fa-solid fa-shield-halved"></i> Admin Login</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -283,6 +297,35 @@ Cybersecurity Fundamentals Certification</textarea>
         <p>Designed & Developed by <a href="https://loganathanm.in" target="_blank"
                 class="footer-link">loganathanm.in</a></p>
     </footer>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="mobile-bottom-nav">
+        <button class="nav-item active" id="nav-edit">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>Edit</span>
+        </button>
+        <button class="nav-item" id="nav-preview">
+            <i class="fa-solid fa-eye"></i>
+            <span>Preview</span>
+        </button>
+        <button class="nav-item" id="nav-theme-mobile">
+            <i class="fa-solid fa-moon"></i>
+            <span>Theme</span>
+        </button>
+        
+        <div class="dropdown" style="display: flex; flex: 1;">
+            <button class="nav-item" id="nav-more-mobile" style="width: 100%;">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <span>More</span>
+            </button>
+            <div class="dropdown-content glass-panel" id="more-menu-content-mobile" style="bottom: 100%; top: auto; right: 10px; margin-bottom: 10px;">
+                <a href="#" id="menu-clear-mobile"><i class="fa-solid fa-trash-can"></i> Clear Data</a>
+                <a href="#" id="menu-sample-mobile"><i class="fa-solid fa-file-import"></i> Load Sample</a>
+                <hr>
+                <a href="admin.html"><i class="fa-solid fa-shield-halved"></i> Admin Login</a>
+            </div>
+        </div>
+    </div>
 
     <!-- html2pdf library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
