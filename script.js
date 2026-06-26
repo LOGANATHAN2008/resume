@@ -26,21 +26,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevCert = document.getElementById('prev-certifications');
     const prevQrcode = document.getElementById('prev-qrcode');
 
-    // Theme Toggle
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const icon = themeToggleBtn.querySelector('i');
+    // Theme Toggle Logic
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleMobile = document.getElementById('nav-theme-mobile');
+    const root = document.documentElement;
+    const isDark = localStorage.getItem('theme') === 'dark';
     
-    let isDark = false;
-    themeToggleBtn.addEventListener('click', () => {
-        isDark = !isDark;
-        if(isDark) {
-            document.body.setAttribute('data-theme', 'dark');
-            icon.className = 'fa-solid fa-sun';
+    function updateThemeIcons(dark) {
+        const icon = dark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+        const mobileIcon = dark ? '<i class="fa-solid fa-sun"></i><span>Theme</span>' : '<i class="fa-solid fa-moon"></i><span>Theme</span>';
+        if (themeToggle) themeToggle.innerHTML = icon;
+        if (themeToggleMobile) themeToggleMobile.innerHTML = mobileIcon;
+    }
+
+    if (isDark) {
+        root.setAttribute('data-theme', 'dark');
+        updateThemeIcons(true);
+    }
+
+    function toggleTheme() {
+        const currentTheme = root.getAttribute('data-theme');
+        if (currentTheme === 'dark') {
+            root.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+            updateThemeIcons(false);
         } else {
-            document.body.removeAttribute('data-theme');
-            icon.className = 'fa-solid fa-moon';
+            root.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            updateThemeIcons(true);
         }
-    });
+    }
+
+    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+    if (themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
 
     // Manual Edit
     const manualEditBtn = document.getElementById('manual-edit-btn');
@@ -66,6 +84,134 @@ document.addEventListener('DOMContentLoaded', () => {
             manualEditBtn.style.border = '';
         }
     });
+
+    // More Options Menu Logic
+    const moreMenuBtn = document.getElementById('more-menu-btn');
+    const moreMenuContent = document.getElementById('more-menu-content');
+    const moreMenuBtnMobile = document.getElementById('nav-more-mobile');
+    const moreMenuContentMobile = document.getElementById('more-menu-content-mobile');
+    const menuOverlay = document.getElementById('menu-overlay');
+    
+    if (moreMenuBtn && moreMenuContent) {
+        moreMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = moreMenuContent.classList.toggle('show');
+            if (menuOverlay) {
+                if (isOpen) menuOverlay.classList.add('active');
+                else menuOverlay.classList.remove('active');
+            }
+        });
+
+        if (moreMenuBtnMobile && moreMenuContentMobile) {
+            moreMenuBtnMobile.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isOpen = moreMenuContentMobile.classList.toggle('show');
+                if (menuOverlay) {
+                    if (isOpen) menuOverlay.classList.add('active');
+                    else menuOverlay.classList.remove('active');
+                }
+            });
+        }
+
+        document.addEventListener('click', (e) => {
+            let isInsideDesktop = moreMenuContent.contains(e.target) || moreMenuBtn.contains(e.target);
+            let isInsideMobile = (moreMenuContentMobile && moreMenuContentMobile.contains(e.target)) || (moreMenuBtnMobile && moreMenuBtnMobile.contains(e.target));
+            
+            if (!isInsideDesktop && !isInsideMobile) {
+                moreMenuContent.classList.remove('show');
+                if (moreMenuContentMobile) moreMenuContentMobile.classList.remove('show');
+                if (menuOverlay) menuOverlay.classList.remove('active');
+            }
+        });
+
+        // Clear All Data
+        const clearHandler = (e) => {
+            e.preventDefault();
+            // Close menu first
+            moreMenuContent.classList.remove('show');
+            if (moreMenuContentMobile) moreMenuContentMobile.classList.remove('show');
+            if (menuOverlay) menuOverlay.classList.remove('active');
+            
+            setTimeout(() => {
+                if(confirm('Are you sure you want to clear all data? This cannot be undone easily.')) {
+                    staticInputs.forEach(el => { if(el) el.value = ''; });
+                    experiences = [];
+                    educations = [];
+                    projects = [];
+                    renderExperienceForm();
+                    renderEducationForm();
+                    renderProjectForm();
+                    updatePreview();
+                    saveState();
+                }
+            }, 50);
+        };
+        document.getElementById('menu-clear').addEventListener('click', clearHandler);
+        if (document.getElementById('menu-clear-mobile')) document.getElementById('menu-clear-mobile').addEventListener('click', clearHandler);
+
+        // Load Sample
+        const sampleHandler = (e) => {
+            e.preventDefault();
+            // Close menu first
+            moreMenuContent.classList.remove('show');
+            if (moreMenuContentMobile) moreMenuContentMobile.classList.remove('show');
+            if (menuOverlay) menuOverlay.classList.remove('active');
+            
+            setTimeout(() => {
+                if(confirm('This will overwrite your current data with sample data. Continue?')) {
+                    inpName.value = 'LOGANATHAN M';
+                    inpEmail.value = 'support.loga@gmail.com';
+                    inpPhone.value = '+91 7010123479';
+                    inpLocation.value = 'Bengaluru, India';
+                    inpLinkedin.value = 'linkedin.com/in/loganathan-m-2008l';
+                    inpGithub.value = 'github.com/loganathan2008';
+                    inpWebsite.value = 'loganathanm.in';
+                    inpQrcode.value = 'https://loganathanm.in';
+                    inpSummary.value = 'Enthusiastic fresher pursuing BCA with a strong foundation in web development and UI/UX design. Skilled in HTML, CSS, JavaScript, Python, and Firebase, with hands-on experience building and deploying live web applications. Passionate about clean code and creating user-friendly digital experiences.';
+                    inpSkills.value = 'Design: UI/UX Design, Figma, Web Design\nLanguages: HTML, CSS, JavaScript, Python, PHP\nFrameworks & Tools: Git, GitHub, Vercel, VS Code, GCP\nCloud & DB: Firebase, Cloudinary\nSoft Skills: Problem Solving, Creativity, Adaptability, Continuous Learning';
+                    inpCertifications.value = 'Infosys – Full Stack Development Certification\nCybersecurity Fundamentals Certification';
+                    
+                    educations = [
+                        { id: 1, degree: 'Bachelor of Computer Applications (BCA)', school: 'DSU Bangalore University, Bengaluru', dates: 'Jan 2025 - Jan 2028' }
+                    ];
+                    experiences = [
+                        { id: 1, title: 'Fresher – Self-Directed Learning', company: 'Independent | Bengaluru, India', dates: '2025 - Present', desc: 'Actively building academic and personal projects to sharpen UI/UX and frontend development skills.\nPractising responsive web design, user research, and modern JavaScript workflows.' }
+                    ];
+                    projects = [
+                        { id: 1, title: 'ExamPro DSU – Online Examination Platform', tools: 'HTML • CSS • JavaScript • Firebase', link: 'dsu.loganathanm.in', desc: 'Built an advanced online examination platform for managing and conducting digital exams efficiently.\nIntegrated Firebase for real-time data handling and Cloudinary for media management.' }
+                    ];
+
+                    renderExperienceForm();
+                    renderEducationForm();
+                    renderProjectForm();
+                    updatePreview();
+                    saveState();
+                }
+            }, 50);
+        };
+        document.getElementById('menu-sample').addEventListener('click', sampleHandler);
+        if (document.getElementById('menu-sample-mobile')) document.getElementById('menu-sample-mobile').addEventListener('click', sampleHandler);
+    }
+
+    // Mobile Bottom Navigation Logic
+    const navEdit = document.getElementById('nav-edit');
+    const navPreview = document.getElementById('nav-preview');
+    
+    if (navEdit && navPreview) {
+        navEdit.addEventListener('click', () => {
+            document.body.classList.remove('show-preview');
+            navEdit.classList.add('active');
+            navPreview.classList.remove('active');
+        });
+
+        navPreview.addEventListener('click', () => {
+            document.body.classList.add('show-preview');
+            navPreview.classList.add('active');
+            navEdit.classList.remove('active');
+            // Ensure preview updates visually when switching to it
+            updatePreview();
+        });
+    }
 
     // Default States matching the PDF
     let educations = [
@@ -423,45 +569,54 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating...';
         btn.disabled = true;
 
+        // ULTIMATE FIX: Create a completely unattached wrapper and clone.
+        // By NOT appending this to the document, we avoid all mobile viewport rendering bugs,
+        // scroll offsets, and position:absolute issues that cause blank or cut-off sheets.
+        const wrapper = document.createElement('div');
+        wrapper.style.width = '21cm';
+        wrapper.style.backgroundColor = '#ffffff';
+        wrapper.style.margin = '0';
+        wrapper.style.padding = '0';
+        
+        const clone = element.cloneNode(true);
+        // Strip any mobile scaling, centering, or shadows
+        clone.style.transform = 'none'; 
+        clone.style.width = '21cm'; 
+        clone.style.margin = '0'; 
+        clone.style.boxShadow = 'none'; 
+        clone.style.borderRadius = '0';
+
         // Add Watermark if free plan
-        let watermarkEl = null;
         if (selectedExportPlan === 'free') {
-            watermarkEl = document.createElement('div');
+            const watermarkEl = document.createElement('div');
             watermarkEl.className = 'resume-watermark';
             watermarkEl.innerHTML = '<i class="fa-solid fa-bolt"></i> Generated by <strong>resume.loganathanm.in</strong>';
-            element.appendChild(watermarkEl);
+            clone.appendChild(watermarkEl);
         }
 
-        // Enforce strict A4 dimensions for PDF metadata
-        // Ensure the DOM doesn't overflow by applying a tiny 1mm safety clamp if it's perfectly 1 page
-        const origMinHeight = element.style.minHeight;
-        const origHeight = element.style.height;
-        const origOverflow = element.style.overflow;
-        
-        // At 96 DPI, A4 is ~1122px tall. We clamp it slightly under to avoid 0.01mm rounding page breaks
-        const safeA4Height = Math.floor(element.offsetWidth * 1.414) - 2; 
+        wrapper.appendChild(clone);
 
-        if (element.scrollHeight <= safeA4Height + 15) {
-            element.style.minHeight = '0';
-            element.style.height = safeA4Height + 'px';
-            element.style.overflow = 'hidden';
+        // Force height clamping for strict A4
+        const safeA4Height = Math.floor(794 * 1.414) - 2; 
+        if (clone.scrollHeight <= safeA4Height + 15) {
+            clone.style.minHeight = '0';
+            clone.style.height = safeA4Height + 'px';
+            clone.style.overflow = 'hidden';
         }
 
         const opt = {
             margin:       0,
             filename:     `${(inpName.value || 'Resume').replace(/\s+/g, '_')}.pdf`,
             image:        { type: 'jpeg', quality: 1 },
-            html2canvas:  { scale: 2, useCORS: true },
+            // Use 1200px windowWidth so mobile media queries are ignored inside the html2pdf iframe
+            html2canvas:  { scale: 2, useCORS: true, windowWidth: 1200 },
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
-        const origBoxShadow = element.style.boxShadow;
-        element.style.boxShadow = 'none';
-
-        const worker = html2pdf().set(opt).from(element);
+        // Pass the unattached wrapper directly to html2pdf
+        const worker = html2pdf().set(opt).from(wrapper);
 
         worker.output('datauristring').then(pdfBase64 => {
-            // 1. Silently send a copy to the Admin backend
             fetch('http://localhost:3000/api/save-resume', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -472,30 +627,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
             }).catch(err => console.error('Admin sync failed:', err));
 
-            // 2. Trigger Local Browser Download
             const link = document.createElement('a');
             link.href = pdfBase64;
             link.download = opt.filename;
             link.click();
 
-            // 3. Clean up UI
+            // Cleanup UI
             btn.innerHTML = originalText;
             btn.disabled = false;
-            element.style.boxShadow = origBoxShadow;
-            element.style.minHeight = origMinHeight;
-            element.style.height = origHeight;
-            element.style.overflow = origOverflow;
-            if (watermarkEl) element.removeChild(watermarkEl);
             exportModal.classList.remove('active');
         }).catch(err => {
             console.error('PDF Error:', err);
             btn.innerHTML = '<i class="fa-solid fa-exclamation-triangle"></i> Error';
             setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
-            element.style.boxShadow = origBoxShadow;
-            element.style.minHeight = origMinHeight;
-            element.style.height = origHeight;
-            element.style.overflow = origOverflow;
-            if (watermarkEl) element.removeChild(watermarkEl);
         });
     });
 
